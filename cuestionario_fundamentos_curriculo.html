@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuestionario: Fundamentos del Currículo (Cap. 1 y 2)</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #eef1f6;
+    margin: 0;
+    padding: 20px;
+    color: #222;
+  }
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+    overflow: hidden;
+  }
+  header {
+    background: linear-gradient(135deg, #1e3a5f, #2c5282);
+    color: #fff;
+    padding: 24px 28px;
+    text-align: center;
+  }
+  header h1 { margin: 0 0 6px 0; font-size: 1.4em; }
+  header p { margin: 2px 0; font-size: 0.92em; opacity: 0.92; }
+  .info-box {
+    background: #f7f9fc;
+    padding: 16px 28px;
+    border-bottom: 1px solid #dde3ec;
+    font-size: 0.92em;
+    color: #444;
+  }
+  .student-fields {
+    padding: 18px 28px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #dde3ec;
+  }
+  .student-fields label { font-size: 0.85em; color: #555; display: block; margin-bottom: 4px; }
+  .student-fields input {
+    padding: 8px 10px;
+    border: 1px solid #ccd3dd;
+    border-radius: 6px;
+    font-size: 0.95em;
+    width: 220px;
+  }
+  .section-title {
+    background: #2c5282;
+    color: #fff;
+    padding: 10px 28px;
+    font-size: 1.05em;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+  .question {
+    padding: 18px 28px;
+    border-bottom: 1px solid #eceff3;
+  }
+  .question p.q-text {
+    font-weight: 600;
+    margin: 0 0 10px 0;
+    font-size: 0.98em;
+  }
+  .options label {
+    display: block;
+    padding: 8px 12px;
+    margin-bottom: 6px;
+    border: 1px solid #dde3ec;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.93em;
+    transition: background 0.15s;
+  }
+  .options label:hover { background: #f2f6fb; }
+  .options input { margin-right: 8px; }
+  .feedback {
+    margin-top: 8px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.88em;
+    display: none;
+  }
+  .feedback.correct { background: #d9f2df; color: #1e6b34; }
+  .feedback.incorrect { background: #fbe0e0; color: #a12727; }
+  .option-correct { background: #d9f2df !important; border-color: #6fbf85 !important; }
+  .option-incorrect { background: #fbe0e0 !important; border-color: #e08a8a !important; }
+  .actions {
+    padding: 22px 28px;
+    text-align: center;
+  }
+  button {
+    background: #2c5282;
+    color: #fff;
+    border: none;
+    padding: 12px 28px;
+    font-size: 1em;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 6px;
+  }
+  button:hover { background: #1e3a5f; }
+  button.retry { background: #6b7280; }
+  button.retry:hover { background: #4b5563; }
+  #resultado {
+    display: none;
+    padding: 22px 28px;
+    text-align: center;
+    font-size: 1.15em;
+    font-weight: 600;
+    border-top: 2px solid #dde3ec;
+  }
+  #resultado .nota { font-size: 2em; margin: 8px 0; }
+  .nota-alta { color: #1e6b34; }
+  .nota-media { color: #b8860b; }
+  .nota-baja { color: #a12727; }
+  .req-msg {
+    color: #a12727;
+    font-size: 0.85em;
+    text-align: center;
+    display: none;
+    padding: 0 28px 10px 28px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Cuestionario de Autoevaluación</h1>
+    <p>Fundamentos del Currículo — Licenciatura en Enseñanza del Inglés</p>
+    <p>Universidad de El Salvador (UES) — Ciclo II-2026 — Grupo G01</p>
+  </header>
+
+  <div class="info-box">
+    Este cuestionario cubre los <strong>Capítulos 1 y 2</strong> del libro <em>Fundamentos del Currículo</em>
+    (Zaida Molina Bogantes, EUNED): Educación, sociedad y currículo — y — Operatividad del currículo en la
+    institución educativa y en el aula. Consta de 25 preguntas (12 de Verdadero/Falso y 13 de opción múltiple).
+    Al finalizar, presione "Calificar" para ver su nota y la retroalimentación de cada pregunta.
+  </div>
+
+  <div class="student-fields">
+    <div>
+      <label for="nombre">Nombre del estudiante</label>
+      <input type="text" id="nombre" placeholder="Escriba su nombre">
+    </div>
+    <div>
+      <label for="carnet">Carnet / N.° de cuenta</label>
+      <input type="text" id="carnet" placeholder="Opcional">
+    </div>
+  </div>
+
+  <div class="section-title">Parte I — Verdadero y Falso (12 preguntas)</div>
+  <div id="vf-container"></div>
+
+  <div class="section-title">Parte II — Opción Múltiple (13 preguntas)</div>
+  <div id="om-container"></div>
+
+  <p class="req-msg" id="reqMsg">Por favor responda todas las preguntas antes de calificar.</p>
+
+  <div class="actions">
+    <button onclick="calificar()">Calificar</button>
+    <button class="retry" onclick="reiniciar()">Reiniciar</button>
+  </div>
+
+  <div id="resultado"></div>
+</div>
+
+<script>
+const preguntasVF = [
+  { texto: "El currículo es un instrumento que permite concretar las intencionalidades y expectativas de la educación.", resp: true },
+  { texto: "Los niveles de concreción del currículo son: nacional, regional e institucional o de aula.", resp: true },
+  { texto: "El currículo es un término unívoco, con una única definición aceptada universalmente por todos los especialistas.", resp: false },
+  { texto: "Según Stenhouse, un currículo implica únicamente el contenido, sin considerar el método ni su realización en las instituciones.", resp: false },
+  { texto: "El término currículo se incorporó a la pedagogía anglosajona hace más de medio siglo, mientras que en Latinoamérica su uso es relativamente reciente (fines de la década de 1970).", resp: true },
+  { texto: "Ralph Tyler e Hilda Taba fundamentaron el currículo desde la racionalidad instrumental, proponiendo partir de la definición de objetivos y proceder en etapas para alcanzarlos.", resp: true },
+  { texto: "Los elementos orientadores del currículo corresponden a los fines y objetivos de nivel macro o nacional.", resp: true },
+  { texto: "Los elementos generadores del currículo incluyen únicamente a los docentes y alumnos, sin considerar a los padres de familia u otros miembros de la comunidad.", resp: false },
+  { texto: "Los elementos reguladores del currículo son los objetivos, los contenidos y la evaluación.", resp: true },
+  { texto: "Las fuentes del currículo son: el alumno, el contexto sociocultural y las áreas del saber.", resp: true },
+  { texto: "La psicología, como fundamento del currículo, aporta principalmente al análisis del contenido cultural sistematizado, más que al conocimiento del alumno.", resp: false },
+  { texto: "Los contenidos actitudinales, según Rocío Quesada, se clasifican en valores, actitudes y normas.", resp: true }
+];
+
+const preguntasOM = [
+  {
+    texto: "¿Cuál es el origen etimológico del término currículo?",
+    opciones: [
+      "Del griego \"paideia\"",
+      "Del latín \"curro\", que significa andar ligero, marchar, correr, carrera",
+      "Del francés \"curriculum vitae\"",
+      "Del inglés moderno \"curriculum\""
+    ],
+    resp: 1
+  },
+  {
+    texto: "Según Gimeno Sacristán, ¿desde cuántas perspectivas diferentes puede analizarse el currículum?",
+    opciones: ["Tres", "Cuatro", "Cinco", "Seis"],
+    resp: 2
+  },
+  {
+    texto: "¿Cuál de las siguientes NO es un nivel de concreción del currículo mencionado en el texto?",
+    opciones: [
+      "Nivel macro o nacional",
+      "Nivel meso o regional",
+      "Nivel micro o institucional y de aula",
+      "Nivel internacional"
+    ],
+    resp: 3
+  },
+  {
+    texto: "El documento curricular de nivel nacional se caracteriza por ser:",
+    opciones: [
+      "Prescriptivo, abierto y flexible, y de carácter orientador",
+      "Rígido e inmodificable en todos sus componentes",
+      "Elaborado exclusivamente por los docentes de aula",
+      "Aplicable únicamente en el nivel regional"
+    ],
+    resp: 0
+  },
+  {
+    texto: "¿Qué elemento curricular corresponde a los actores sociales como docentes, alumnos, padres y miembros de la comunidad?",
+    opciones: ["Elementos orientadores", "Elementos generadores", "Elementos reguladores", "Elementos multimedios"],
+    resp: 1
+  },
+  {
+    texto: "En la clasificación de los elementos del currículo, ¿a qué categoría pertenecen las experiencias de aprendizaje y las estrategias metodológicas?",
+    opciones: ["Elementos reguladores", "Elementos generadores", "Elementos activadores o metódicos", "Elementos orientadores"],
+    resp: 2
+  },
+  {
+    texto: "¿Cuál de las siguientes NO es una fuente del currículo?",
+    opciones: ["El alumno", "El contexto sociocultural", "Las áreas del saber", "La evaluación"],
+    resp: 3
+  },
+  {
+    texto: "Como fuente del currículo, ¿qué tipo de cultura aportan principalmente las \"áreas del saber\"?",
+    opciones: ["Cultura cotidiana", "Cultura sistematizada", "Cultura familiar", "Cultura popular"],
+    resp: 1
+  },
+  {
+    texto: "¿Cuál ciencia fundamenta el currículo aportando respuestas principalmente a las preguntas: ¿cuándo aprender?, ¿qué es posible aprender? y ¿cómo aprenderlo?",
+    opciones: ["Sociología", "Antropología", "Psicología", "Filosofía"],
+    resp: 2
+  },
+  {
+    texto: "¿Qué rama de la filosofía se ocupa de cómo se conoce y qué es factible de ser conocido, fundamentando el tratamiento del contenido curricular?",
+    opciones: ["La axiología", "La epistemología", "La ética", "La estética"],
+    resp: 1
+  },
+  {
+    texto: "Según Rocío Quesada, los contenidos referidos al \"saber hacer\" (ejecución de habilidades, estrategias o técnicas) se denominan:",
+    opciones: ["Contenidos conceptuales o declarativos", "Contenidos procedimentales", "Contenidos actitudinales", "Contenidos multimedios"],
+    resp: 1
+  },
+  {
+    texto: "En las tendencias curriculares actuales, el papel del alumno se orienta esencialmente por el principio de:",
+    opciones: ["Recepción pasiva del conocimiento", "Aprender a aprender", "Memorización de contenidos", "Cumplimiento estricto de normas"],
+    resp: 1
+  },
+  {
+    texto: "¿Quiénes elaboran generalmente el documento curricular de nivel nacional o macro?",
+    opciones: [
+      "Exclusivamente los padres de familia",
+      "El Ministerio de Educación del país, mediante sus funcionarios, especialistas contratados o docentes",
+      "Organismos internacionales, sin participación del país",
+      "Únicamente estudiantes universitarios"
+    ],
+    resp: 1
+  }
+];
+
+const vfContainer = document.getElementById('vf-container');
+preguntasVF.forEach((p, i) => {
+  const div = document.createElement('div');
+  div.className = 'question';
+  div.innerHTML = `
+    <p class="q-text">${i + 1}. ${p.texto}</p>
+    <div class="options" id="vf-opts-${i}">
+      <label id="vf-${i}-V"><input type="radio" name="vf${i}" value="true"> Verdadero</label>
+      <label id="vf-${i}-F"><input type="radio" name="vf${i}" value="false"> Falso</label>
+    </div>
+    <div class="feedback" id="vf-fb-${i}"></div>
+  `;
+  vfContainer.appendChild(div);
+});
+
+const omContainer = document.getElementById('om-container');
+preguntasOM.forEach((p, i) => {
+  const div = document.createElement('div');
+  div.className = 'question';
+  let optsHtml = '<div class="options" id="om-opts-' + i + '">';
+  const letras = ['a', 'b', 'c', 'd'];
+  p.opciones.forEach((op, j) => {
+    optsHtml += `<label id="om-${i}-${j}"><input type="radio" name="om${i}" value="${j}"> ${letras[j]}) ${op}</label>`;
+  });
+  optsHtml += '</div>';
+  div.innerHTML = `
+    <p class="q-text">${i + 1}. ${p.texto}</p>
+    ${optsHtml}
+    <div class="feedback" id="om-fb-${i}"></div>
+  `;
+  omContainer.appendChild(div);
+});
+
+function calificar() {
+  let correctas = 0;
+  let sinResponder = 0;
+
+  preguntasVF.forEach((p, i) => {
+    const seleccion = document.querySelector(`input[name="vf${i}"]:checked`);
+    const fb = document.getElementById(`vf-fb-${i}`);
+    const labelV = document.getElementById(`vf-${i}-V`);
+    const labelF = document.getElementById(`vf-${i}-F`);
+    labelV.classList.remove('option-correct', 'option-incorrect');
+    labelF.classList.remove('option-correct', 'option-incorrect');
+
+    if (!seleccion) {
+      sinResponder++;
+      fb.style.display = 'block';
+      fb.className = 'feedback incorrect';
+      fb.textContent = 'No respondida. Respuesta correcta: ' + (p.resp ? 'Verdadero' : 'Falso');
+      (p.resp ? labelV : labelF).classList.add('option-correct');
+      return;
+    }
+    const valorSeleccionado = seleccion.value === 'true';
+    const correcta = valorSeleccionado === p.resp;
+    fb.style.display = 'block';
+    if (correcta) {
+      correctas++;
+      fb.className = 'feedback correct';
+      fb.textContent = '✔ Correcto.';
+      (p.resp ? labelV : labelF).classList.add('option-correct');
+    } else {
+      fb.className = 'feedback incorrect';
+      fb.textContent = '✘ Incorrecto. Respuesta correcta: ' + (p.resp ? 'Verdadero' : 'Falso');
+      (valorSeleccionado ? labelV : labelF).classList.add('option-incorrect');
+      (p.resp ? labelV : labelF).classList.add('option-correct');
+    }
+  });
+
+  preguntasOM.forEach((p, i) => {
+    const seleccion = document.querySelector(`input[name="om${i}"]:checked`);
+    const fb = document.getElementById(`om-fb-${i}`);
+    for (let j = 0; j < p.opciones.length; j++) {
+      document.getElementById(`om-${i}-${j}`).classList.remove('option-correct', 'option-incorrect');
+    }
+    const letras = ['a', 'b', 'c', 'd'];
+
+    if (!seleccion) {
+      sinResponder++;
+      fb.style.display = 'block';
+      fb.className = 'feedback incorrect';
+      fb.textContent = 'No respondida. Respuesta correcta: ' + letras[p.resp] + ') ' + p.opciones[p.resp];
+      document.getElementById(`om-${i}-${p.resp}`).classList.add('option-correct');
+      return;
+    }
+    const valorSeleccionado = parseInt(seleccion.value);
+    const correcta = valorSeleccionado === p.resp;
+    fb.style.display = 'block';
+    if (correcta) {
+      correctas++;
+      fb.className = 'feedback correct';
+      fb.textContent = '✔ Correcto.';
+      document.getElementById(`om-${i}-${p.resp}`).classList.add('option-correct');
+    } else {
+      fb.className = 'feedback incorrect';
+      fb.textContent = '✘ Incorrecto. Respuesta correcta: ' + letras[p.resp] + ') ' + p.opciones[p.resp];
+      document.getElementById(`om-${i}-${valorSeleccionado}`).classList.add('option-incorrect');
+      document.getElementById(`om-${i}-${p.resp}`).classList.add('option-correct');
+    }
+  });
+
+  const total = preguntasVF.length + preguntasOM.length;
+  const nota = (correctas / total) * 10;
+  const notaTexto = nota.toFixed(1);
+  const resultado = document.getElementById('resultado');
+  resultado.style.display = 'block';
+
+  let claseNota = 'nota-baja';
+  if (nota >= 8.5) claseNota = 'nota-alta';
+  else if (nota >= 6) claseNota = 'nota-media';
+
+  let mensajeExtra = '';
+  if (sinResponder > 0) {
+    mensajeExtra = `<p style="font-weight:normal;font-size:0.6em;color:#a12727;">Preguntas sin responder: ${sinResponder}</p>`;
+  }
+
+  resultado.innerHTML = `
+    Resultado: ${correctas} de ${total} respuestas correctas
+    <div class="nota ${claseNota}">${notaTexto} / 10</div>
+    ${mensajeExtra}
+  `;
+  resultado.scrollIntoView({ behavior: 'smooth' });
+}
+
+function reiniciar() {
+  document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+  document.querySelectorAll('.feedback').forEach(f => { f.style.display = 'none'; f.textContent = ''; });
+  document.querySelectorAll('.options label').forEach(l => l.classList.remove('option-correct', 'option-incorrect'));
+  document.getElementById('resultado').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
