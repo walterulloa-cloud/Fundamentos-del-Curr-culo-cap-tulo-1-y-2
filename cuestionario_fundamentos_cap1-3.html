@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cuestionario · Fundamentos del Currículo · Capítulos 1, 2 y 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --vino:#7A1F2B; --vino-claro:#F4E7E8; --tinta:#1F1B1A; --gris:#5E5856;
+    --papel:#FBFAF8; --linea:#E3DEDA; --ok:#2E7D4F; --ok-f:#E6F3EA;
+    --mal:#B3261E; --mal-f:#FBE9E7;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--papel);color:var(--tinta);
+    font-family:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.55}
+  header{background:var(--vino);color:#fff;padding:28px 20px 30px}
+  .wrap{max-width:780px;margin:0 auto;padding:0 20px}
+  header .inst{font-size:.95rem;opacity:.9;margin:0 0 6px}
+  h1{font-family:Literata,Georgia,serif;font-weight:700;font-size:clamp(1.6rem,4vw,2.2rem);line-height:1.2;margin:0 0 8px}
+  header p.sub{margin:0;opacity:.9}
+  .datos{background:#fff;border:1px solid var(--linea);border-radius:10px;padding:18px;margin:26px 0}
+  .datos label{display:block;font-weight:600;margin-bottom:6px}
+  .datos input{width:100%;padding:10px 12px;font:inherit;border:1px solid var(--linea);border-radius:6px}
+  .datos p{margin:10px 0 0;color:var(--gris);font-size:.95rem}
+  h2{font-family:Literata,Georgia,serif;font-size:1.45rem;color:var(--vino);margin:40px 0 4px}
+  .nota-sec{color:var(--gris);margin:0 0 16px}
+  .cap{font-family:Literata,Georgia,serif;font-size:1.05rem;margin:28px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--vino-claro)}
+  .preg{background:#fff;border:1px solid var(--linea);border-left:4px solid var(--linea);border-radius:8px;padding:16px 18px;margin:0 0 14px}
+  .preg.ok{border-left-color:var(--ok);background:var(--ok-f)}
+  .preg.mal{border-left-color:var(--mal);background:var(--mal-f)}
+  .preg.vacia{border-left-color:#C9A227}
+  .enun{margin:0 0 10px}
+  .enun b{color:var(--vino);margin-right:4px}
+  .opc{display:flex;gap:10px;align-items:flex-start;padding:7px 10px;border-radius:6px;cursor:pointer}
+  .opc:hover{background:#F6F3F1}
+  .opc input{margin-top:5px;accent-color:var(--vino)}
+  .opc.correcta{outline:2px solid var(--ok);background:#fff}
+  .opc.elegida-mal{outline:2px solid var(--mal);background:#fff}
+  .vf{display:flex;gap:10px;flex-wrap:wrap}
+  .vf .opc{border:1px solid var(--linea);min-width:130px}
+  .fb{display:none;margin:10px 0 0;font-size:.95rem}
+  .preg.ok .fb,.preg.mal .fb,.preg.vacia .fb{display:block}
+  .fb strong{display:block}
+  .preg.ok .fb strong{color:var(--ok)}
+  .preg.mal .fb strong{color:var(--mal)}
+  .acciones{display:flex;gap:12px;flex-wrap:wrap;margin:34px 0 18px}
+  button{font:inherit;font-weight:600;padding:12px 22px;border-radius:8px;border:2px solid var(--vino);cursor:pointer}
+  #btnRevisar{background:var(--vino);color:#fff}
+  #btnReiniciar{background:#fff;color:var(--vino)}
+  button:focus-visible,input:focus-visible{outline:3px solid #C9A227;outline-offset:2px}
+  #resultado{display:none;background:#fff;border:2px solid var(--vino);border-radius:12px;padding:22px;margin:0 0 50px}
+  #resultado .nota{font-family:Literata,Georgia,serif;font-size:3rem;font-weight:700;color:var(--vino);line-height:1;margin:0}
+  #resultado .nota small{font-size:1.2rem;color:var(--gris)}
+  #resultado table{border-collapse:collapse;width:100%;margin-top:14px;font-size:.95rem}
+  #resultado th,#resultado td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--linea)}
+  #aviso{color:#8A6D00;font-weight:600;margin:0 0 20px;display:none}
+  footer{color:var(--gris);font-size:.85rem;padding:0 0 40px}
+  @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <p class="inst">Universidad de El Salvador · Fundamentos del Currículo · G01 · Ciclo II-2026</p>
+    <h1>Cuestionario de repaso: capítulos 1, 2 y 3</h1>
+    <p class="sub">Basado en Molina Bogantes, Z. <i>Fundamentos del currículo</i>. EUNED. 60 preguntas con autocorrección.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="datos">
+    <label for="nombre">Nombre del estudiante</label>
+    <input id="nombre" type="text" autocomplete="name" placeholder="Escribe tu nombre completo">
+    <p>Responde las 60 preguntas y presiona «Revisar respuestas». Verás tu nota sobre 10 y la explicación de cada respuesta. Puedes intentarlo las veces que quieras.</p>
+  </div>
+
+  <h2>Parte I. Verdadero o falso</h2>
+  <p class="nota-sec">30 preguntas. Marca si cada afirmación es verdadera o falsa según el libro.</p>
+  <div id="parteVF"></div>
+
+  <h2>Parte II. Opción múltiple</h2>
+  <p class="nota-sec">30 preguntas. Elige la única respuesta correcta.</p>
+  <div id="parteOM"></div>
+
+  <p id="aviso"></p>
+  <div class="acciones">
+    <button id="btnRevisar" type="button">Revisar respuestas</button>
+    <button id="btnReiniciar" type="button">Reintentar</button>
+  </div>
+  <div id="resultado" aria-live="polite"></div>
+</main>
+<footer class="wrap">Cuestionario de práctica. No guarda intentos ni envía datos.</footer>
+
+<script>
+const CAPS = {
+  1:"Capítulo 1. Educación, sociedad y currículo",
+  2:"Capítulo 2. Operatividad del currículo en la institución educativa y en el aula",
+  3:"Capítulo 3. Tipos de currículo, enfoques y modelos curriculares"
+};
+
+// Verdadero / falso: r = true (verdadero) o false (falso)
+const VF = [
+ {c:1,t:"El currículo es un término polisémico; no existe una definición única y definitiva.",r:true,e:"El libro señala que es un término polisémico y que casi cada especialista tiene su propia definición."},
+ {c:1,t:"Etimológicamente, «currículo» deriva del verbo latino «curro», que significa andar ligero, correr o carrera.",r:true,e:"Alude al recorrido que sigue el estudiante para lograr un grado académico."},
+ {c:1,t:"Ralph Tyler precisó el término currículo en sentido moderno con su obra The Curriculum, de 1918.",r:false,e:"Fue Franklin Bobbit en 1918. Tyler (1949) e Hilda Taba (1962) establecieron después los fundamentos del currículo."},
+ {c:1,t:"El término currículo apareció por primera vez en 1633 en la Universidad de Oxford.",r:false,e:"Según el cuadro 1.2, surgió en 1633 en la Universidad de Glasgow."},
+ {c:1,t:"El nivel meso o regional de concreción del currículo se aplica en todos los países.",r:false,e:"Se da solo en algunos países, cuando existen estructuras técnicas regionales, provinciales o municipales."},
+ {c:1,t:"El documento curricular de nivel nacional es prescriptivo, abierto y flexible, y de carácter orientador.",r:true,e:"Esos son los rasgos generales del documento curricular de nivel macro o nacional."},
+ {c:1,t:"El trivium comprendía la música, la aritmética, la geometría y la astronomía.",r:false,e:"Esas materias formaban el quadrivium. El trivium comprendía gramática, dialéctica y retórica."},
+ {c:1,t:"El informe de la UNESCO «La educación encierra un tesoro» (1996) fue elaborado por Jacques Delors y otros.",r:true,e:"De ese informe el libro extrae los retos específicos de la educación actual."},
+ {c:1,t:"Según Brunner, la escuela sigue siendo el principal medio de información para las nuevas generaciones.",r:false,e:"Brunner plantea lo contrario: la escuela deja de ser el principal medio y debe competir con la televisión e internet."},
+ {c:1,t:"Si se asume un currículo centrado en la enseñanza, el docente recurre a estrategias más directivas y frontales, como las clases magistrales.",r:true,e:"En cambio, un currículo centrado en el alumno exige estrategias participativas y activas."},
+
+ {c:2,t:"Hilda Taba incluye como componentes básicos del currículo los objetivos, los contenidos, las actividades y la evaluación.",r:true,e:"Con el tiempo, otros autores ampliaron esa lista con actores sociales, estrategias, contexto y recursos."},
+ {c:2,t:"La clasificación de los elementos en orientadores, generadores, reguladores, activadores y multimedios es de Viola Soto Guzmán (1976).",r:true,e:"Aparece en su libro Desarrollo de modelos curriculares, tomo I."},
+ {c:2,t:"Los elementos orientadores del currículo son las experiencias de aprendizaje y las estrategias metodológicas.",r:false,e:"Los orientadores son los fines y objetivos de la educación. Las experiencias y estrategias son elementos activadores o metódicos."},
+ {c:2,t:"Los contenidos procedimentales corresponden al «saber hacer».",r:true,e:"Incluyen habilidades, estrategias, técnicas y métodos."},
+ {c:2,t:"Los contenidos actitudinales se clasifican en hechos, datos y conceptos.",r:false,e:"Hechos, datos y conceptos son contenidos conceptuales. Los actitudinales se clasifican en valores, actitudes y normas."},
+ {c:2,t:"La evaluación sumativa se concentra en el proceso del aprendizaje y no en el producto.",r:false,e:"Es al revés: la sumativa valora los resultados finales, es decir, el producto."},
+ {c:2,t:"En la coevaluación o mutua evaluación, unos alumnos evalúan a sus compañeros y estos los evalúan a ellos.",r:true,e:"El docente planifica y estimula estas actividades de trabajo compartido."},
+ {c:2,t:"Las fuentes del currículo son el contexto sociocultural, el alumno y las áreas del saber.",r:true,e:"Son las proveedoras del material o contenido curricular."},
+ {c:2,t:"Las áreas del saber aportan principalmente elementos de cultura cotidiana.",r:false,e:"Aportan cultura sistematizada. El contexto sociocultural y el alumno aportan cultura cotidiana."},
+ {c:2,t:"La filosofía fundamenta el currículo mediante dos de sus ramas: la axiología y la epistemología.",r:true,e:"La axiología orienta el tipo de ser humano y sociedad; la epistemología, cómo se conoce y qué se puede conocer."},
+
+ {c:3,t:"En la práctica cotidiana del aula coexisten tres tipos de currículo: el explícito, el oculto y el emergente.",r:true,e:"No se dan en forma pura ni independiente, sino que interactúan."},
+ {c:3,t:"El currículo explícito surge de forma espontánea en el aula, sin haber sido planificado.",r:false,e:"El explícito es la propuesta oficial o formal, escrita y pública. Lo que surge espontáneamente es el currículo emergente."},
+ {c:3,t:"El currículo oculto aparece escrito en los planes y programas de estudio.",r:false,e:"El currículo oculto no está escrito; se transmite de manera implícita en las prácticas institucionales."},
+ {c:3,t:"El currículo emergente surge de intereses espontáneos de los alumnos, de acontecimientos de la comunidad o de efemérides.",r:true,e:"Además, permite mantener actualizado el currículo explícito y hacerlo más flexible."},
+ {c:3,t:"Según el libro, los enfoques curriculares casi siempre se presentan de manera pura en una propuesta curricular.",r:false,e:"El libro afirma que casi nunca se presentan puros; generalmente confluyen dos o más enfoques."},
+ {c:3,t:"El enfoque tecnológico, también llamado conductual o eficientista, rechaza organizar la enseñanza en torno a objetivos específicos y observables.",r:false,e:"Al contrario: organiza la enseñanza y la evaluación en torno a objetivos específicos, concretos y observables."},
+ {c:3,t:"El enfoque academicista también se conoce como racionalismo académico o intelectualista.",r:true,e:"Se centra en el contenido cultural sistemático y en su transmisión."},
+ {c:3,t:"En el enfoque humanista, los contenidos de las disciplinas están por encima de las necesidades e intereses del alumno.",r:false,e:"En el humanista el estudiante es el centro del currículo, con sus necesidades, intereses y problemas."},
+ {c:3,t:"El enfoque crítico-social considera el currículo oficial un instrumento de reproducción de relaciones de poder y da importancia al currículo oculto.",r:true,e:"Busca una educación emancipadora que desenmascare situaciones de dominio."},
+ {c:3,t:"El modelo curricular vigente en Costa Rica se identifica con los modelos alternativos de corte no lineal.",r:false,e:"El libro indica que se identifica con los modelos clásicos, esencialmente con los de corte lineal."}
+];
+
+// Opción múltiple: r = índice de la opción correcta (0 a 3)
+const OM = [
+ {c:1,t:"Según Walter Peñaloza, la concepción de la educación se encuentra en:",o:["El mundo de la realidad fáctica","El mundo de las concepciones","El nivel de aula","El plan de estudios"],r:1,e:"Para Peñaloza, la concepción de la educación está en el mundo de las concepciones; el currículo y sus componentes, en la realidad fáctica."},
+ {c:1,t:"Los niveles macro, meso y micro de concreción curricular corresponden, respectivamente, a:",o:["Aula, institución y nación","Institución, región y aula","Nacional, regional e institucional o de aula","Ministerio, universidad y escuela"],r:2,e:"Macro = nacional; meso = regional; micro = institucional y de aula."},
+ {c:1,t:"El rasgo del documento curricular nacional que obliga a cumplir ciertos objetivos y contenidos en todas las instituciones del país es su carácter:",o:["Prescriptivo","Flexible","Orientador","Emergente"],r:0,e:"Ser prescriptivo significa que sus disposiciones deben cumplirse de forma obligatoria."},
+ {c:1,t:"El plan curricular de centro, que replanifica la propuesta nacional según la comunidad educativa, corresponde al nivel:",o:["Macro o nacional","Meso o regional","Ministerial","Micro, institucional y de aula"],r:3,e:"Se elabora en el nivel micro, antes del planeamiento de aula."},
+ {c:1,t:"¿Qué autor define el currículo como «el medio con el cual se hace públicamente disponible la experiencia» de poner en práctica una propuesta educativa?",o:["Ralph Tyler","César Coll","Lawrence Stenhouse","Hilda Taba"],r:2,e:"Es la definición de Stenhouse (1999), que incluye contenido y método."},
+ {c:1,t:"Gimeno Sacristán propone analizar el currículo desde:",o:["Tres perspectivas","Cinco perspectivas","Cuatro perspectivas","Seis perspectivas"],r:1,e:"Funcionalidad social, proyecto o plan, expresión formal del plan, campo práctico y actividad discursiva o investigadora."},
+ {c:1,t:"El quadrivium, en la Europa de los siglos XII y XIII, integraba:",o:["Gramática, dialéctica y retórica","Filosofía, teología y derecho","Lectura, escritura y cálculo","Música, aritmética, geometría y astronomía"],r:3,e:"El trivium era gramática, dialéctica y retórica; juntos formaban las siete artes liberales."},
+ {c:1,t:"Tyler (1949) y Taba (1962) establecieron los fundamentos del currículo desde el punto de vista de la:",o:["Racionalidad instrumental","Pedagogía crítica","Psicología humanista","Antropología cultural"],r:0,e:"Proponen partir de objetivos y avanzar por etapas consistentes para alcanzarlos."},
+ {c:1,t:"¿Cuál de las siguientes NO es una de las tensiones del siglo XXI señaladas en el informe de Delors?",o:["Entre lo mundial y lo local","Entre tradición y modernidad","Entre la escuela pública y la escuela privada","Entre el largo plazo y el corto plazo"],r:2,e:"El informe menciona, entre otras, lo mundial y lo local, tradición y modernidad, y largo y corto plazo."},
+ {c:1,t:"Según el cuadro 1.1, ¿cuál es un aporte de la escuela en el aspecto individual?",o:["Contribuye a la movilidad social","Estimula la capacidad para la autorrealización personal","Contribuye al desarrollo económico de la sociedad","Forma dirigentes y líderes sociales y políticos"],r:1,e:"Las otras tres opciones son aportes del aspecto social."},
+
+ {c:2,t:"En la clasificación de Viola Soto, los elementos generadores son:",o:["Los fines y objetivos de la educación","Los recursos y el ambiente escolar","Los objetivos, contenidos y evaluación","Los actores sociales: alumnos, docentes, padres y comunidad"],r:3,e:"Son los portadores de cultura. También incluye el contexto sociocultural."},
+ {c:2,t:"Los elementos reguladores del currículo son:",o:["Los objetivos, los contenidos y la evaluación","Los fines de la educación y la política educativa","Las experiencias de aprendizaje","Los recursos tecnológicos"],r:0,e:"Norman el proceso curricular según la política educativa vigente."},
+ {c:2,t:"Las experiencias de aprendizaje y las estrategias metodológicas son elementos:",o:["Orientadores","Multimedios","Activadores o metódicos","Generadores"],r:2,e:"Tienen relación con la ejecución del proceso curricular."},
+ {c:2,t:"Los elementos multimedios se refieren fundamentalmente a:",o:["Los padres de familia","El ambiente escolar y los recursos","Los programas de estudio","La evaluación sumativa"],r:1,e:"Incluyen los recursos del entorno escolar y comunal, bibliográficos y tecnológicos."},
+ {c:2,t:"El «saber ser» corresponde a los contenidos:",o:["Conceptuales","Procedimentales","Declarativos","Actitudinales"],r:3,e:"Los actitudinales incluyen valores, actitudes y normas."},
+ {c:2,t:"Los objetivos expresivos, que enfatizan la actividad y la experiencia más que el conocimiento por adquirir, fueron propuestos por:",o:["Eisner","Tyler","Quesada","Coll"],r:0,e:"El libro atribuye los objetivos expresivos a Eisner."},
+ {c:2,t:"El tipo de evaluación que se aplica al comienzo de una nueva fase y rescata los aprendizajes previos es la:",o:["Formativa","Sumativa","Diagnóstica","Unidireccional"],r:2,e:"La diagnóstica es el punto de partida para planificar el aprendizaje."},
+ {c:2,t:"En la evaluación diagnóstica, la corriente vigotskiana sugiere detectar las potencialidades del alumno, lo que remite al concepto de:",o:["Aprendizaje por descubrimiento","Zona de desarrollo próximo","Conflicto cognitivo","Condicionamiento operante"],r:1,e:"Se trata de capacidades «en potencia» que se fortalecen con apoyo del docente y los pares."},
+ {c:2,t:"¿Qué ciencia aporta el sustento para responder «¿cuándo aprender?, ¿qué es posible aprender en cada momento? y ¿cómo aprenderlo?»?",o:["La sociología","La antropología","La axiología","La psicología"],r:3,e:"La psicología fundamenta el acercamiento al alumno y su forma de aprender."},
+ {c:2,t:"El aporte de la epistemología como fundamento del currículo se concentra en:",o:["Cómo se conoce y qué es factible de ser conocido","El tipo de ser humano y sociedad que se desea","Las costumbres del grupo sociocultural","Las etapas del desarrollo del alumno"],r:0,e:"Con ello fundamenta el tratamiento del contenido en las disciplinas."},
+
+ {c:3,t:"El currículo que se transmite de manera implícita, también llamado latente o invisible, es el:",o:["Explícito","Emergente","Oculto","Formal"],r:2,e:"No aparece escrito, pero influye mucho en el aula y en la institución."},
+ {c:3,t:"Un niño trae al aula queso hecho en casa y cuenta cómo vio nacer un ternero; la docente aprovecha esos temas. Esto es un ejemplo de currículo:",o:["Oculto","Explícito","Oficial","Emergente"],r:3,e:"Surge del aporte de los estudiantes y de experiencias no previstas en el currículo formal."},
+ {c:3,t:"Una docente enseña democracia y respeto, pero en clase actúa de forma autoritaria. Según el libro, esa contradicción forma parte del currículo:",o:["Oculto","Emergente","Explícito","Nacional"],r:0,e:"El currículo oculto se relaciona más con lo que se hace que con lo que se dice."},
+ {c:3,t:"Según Bolaños y Molina, el enfoque curricular es:",o:["El documento que contiene los planes de estudio","Un cuerpo teórico que sustenta cómo se visualizan los elementos del currículo y sus interacciones","La lista de asignaturas de un nivel educativo","La evaluación final de un programa"],r:1,e:"El enfoque orienta los planteamientos curriculares, como la elaboración de planes y programas."},
+ {c:3,t:"El enfoque que se centra en el individuo y busca su crecimiento personal y desarrollo integral es el:",o:["Academicista","Tecnológico","Humanista","Por competencias"],r:2,e:"También se le llama psicologista."},
+ {c:3,t:"El enfoque que usa la tecnología para lograr la eficiencia del proceso de enseñanza-aprendizaje y programa resultados observables es el:",o:["Tecnológico","Crítico-social","Constructivista","Humanista"],r:0,e:"También se conoce como conductual, racional, positivista o eficientista."},
+ {c:3,t:"El enfoque en que el educando aprende «de los otros y con los otros» mediante la interacción con el medio social es el:",o:["Academicista","Tecnológico","Humanista","Socioconstruccionista"],r:3,e:"Así lo describe Tünnermann (2006); el conocimiento es a la vez producto personal y social."},
+ {c:3,t:"El diseño curricular basado en competencias se elabora a partir de:",o:["Una lista de asignaturas aisladas","Los intereses espontáneos del grupo","La descripción del perfil profesional mediante el análisis funcional","Las pruebas escritas de fin de año"],r:2,e:"Además, adopta una estructura modular."},
+ {c:3,t:"Según el libro, el currículo problematizador incluye tres momentos:",o:["Diagnóstico, planeamiento y ejecución","Preactivo, de interacción y de evaluación","Inicio, desarrollo y cierre","Macro, meso y micro"],r:1,e:"Preactivo (diagnóstico y diseño), interacción (desarrollo) y evaluación (reflexión y proyecciones)."},
+ {c:3,t:"En la clasificación de modelos curriculares, los modelos clásicos están representados por:",o:["Schwab y Stenhouse","Glazman e Ibarrola","César Coll","Tyler y Taba"],r:3,e:"Schwab y Stenhouse representan el modelo alternativo; Glazman e Ibarrola, el tecnológico y sistémico."}
+];
+
+function render(lista, contenedor, tipo){
+  const cont = document.getElementById(contenedor);
+  let capActual = 0, html = "";
+  lista.forEach((p,i)=>{
+    const id = tipo+i, num = i+1;
+    if(p.c!==capActual){ capActual=p.c; html += `<h3 class="cap">${CAPS[p.c]}</h3>`; }
+    const opciones = tipo==="vf"
+      ? `<div class="vf">${["Verdadero","Falso"].map((txt,k)=>`<label class="opc"><input type="radio" name="${id}" value="${k}"> ${txt}</label>`).join("")}</div>`
+      : p.o.map((txt,k)=>`<label class="opc"><input type="radio" name="${id}" value="${k}"> <span>${String.fromCharCode(97+k)}) ${txt}</span></label>`).join("");
+    html += `<div class="preg" id="p-${id}"><p class="enun"><b>${num}.</b>${p.t}</p>${opciones}<div class="fb"></div></div>`;
+  });
+  cont.innerHTML = html;
+}
+render(VF,"parteVF","vf");
+render(OM,"parteOM","om");
+
+function corregir(lista,tipo,porCap){
+  let aciertos=0, vacias=0;
+  lista.forEach((p,i)=>{
+    const id=tipo+i, caja=document.getElementById("p-"+id);
+    const correcta = tipo==="vf" ? (p.r?0:1) : p.r;
+    const sel = document.querySelector(`input[name="${id}"]:checked`);
+    const labels = caja.querySelectorAll(".opc");
+    labels.forEach(l=>l.classList.remove("correcta","elegida-mal"));
+    caja.classList.remove("ok","mal","vacia");
+    labels[correcta].classList.add("correcta");
+    const fb = caja.querySelector(".fb");
+    const txtCorrecta = tipo==="vf" ? (p.r?"Verdadero":"Falso") : String.fromCharCode(97+correcta)+")";
+    porCap[p.c].total++;
+    if(!sel){ vacias++; caja.classList.add("vacia"); fb.innerHTML=`<strong>Sin responder. Respuesta correcta: ${txtCorrecta}</strong>${p.e}`; return; }
+    if(+sel.value===correcta){ aciertos++; porCap[p.c].ok++; caja.classList.add("ok"); fb.innerHTML=`<strong>Correcto.</strong>${p.e}`; }
+    else { caja.classList.add("mal"); labels[+sel.value].classList.add("elegida-mal"); fb.innerHTML=`<strong>Incorrecto. Respuesta correcta: ${txtCorrecta}</strong>${p.e}`; }
+  });
+  return {aciertos,vacias};
+}
+
+document.getElementById("btnRevisar").addEventListener("click",()=>{
+  const porCap={1:{ok:0,total:0},2:{ok:0,total:0},3:{ok:0,total:0}};
+  const a=corregir(VF,"vf",porCap), b=corregir(OM,"om",porCap);
+  const total=VF.length+OM.length, ok=a.aciertos+b.aciertos, vacias=a.vacias+b.vacias;
+  const nota=(ok/total*10).toFixed(2);
+  const nombre=document.getElementById("nombre").value.trim();
+  const aviso=document.getElementById("aviso");
+  aviso.style.display = vacias ? "block" : "none";
+  aviso.textContent = vacias ? `Dejaste ${vacias} pregunta(s) sin responder. Cuentan como incorrectas.` : "";
+  const filas=[1,2,3].map(c=>`<tr><td>${CAPS[c]}</td><td>${porCap[c].ok} de ${porCap[c].total}</td></tr>`).join("");
+  const r=document.getElementById("resultado");
+  r.innerHTML=`${nombre?`<p><b>${nombre.replace(/[<>&]/g,"")}</b></p>`:""}
+    <p class="nota">${nota} <small>/ 10</small></p>
+    <p>Respondiste bien ${ok} de ${total} preguntas (verdadero o falso: ${a.aciertos} de ${VF.length}; opción múltiple: ${b.aciertos} de ${OM.length}).</p>
+    <table><thead><tr><th>Capítulo</th><th>Aciertos</th></tr></thead><tbody>${filas}</tbody></table>
+    <p>Revisa arriba las explicaciones. Las respuestas en verde son las correctas.</p>`;
+  r.style.display="block";
+  r.scrollIntoView();
+});
+
+document.getElementById("btnReiniciar").addEventListener("click",()=>{
+  document.querySelectorAll('input[type="radio"]').forEach(x=>x.checked=false);
+  document.querySelectorAll(".preg").forEach(x=>{x.classList.remove("ok","mal","vacia");x.querySelector(".fb").innerHTML="";});
+  document.querySelectorAll(".opc").forEach(x=>x.classList.remove("correcta","elegida-mal"));
+  document.getElementById("resultado").style.display="none";
+  document.getElementById("aviso").style.display="none";
+  window.scrollTo(0,0);
+});
+</script>
+</body>
+</html>
