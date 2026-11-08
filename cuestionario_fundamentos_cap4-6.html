@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cuestionario · Fundamentos del Currículo · Capítulos 4, 5 y 6</title>
+<style>
+:root{--bg:#fff;--fg:#1f2933;--mut:#5f6b7a;--card:#f5f7fa;--bd:#d5dbe3;--ac:#1d4e89;--ok:#1b7f4b;--okb:#e4f5ec;--no:#b3261e;--nob:#fdeceb}
+@media(prefers-color-scheme:dark){:root{--bg:#14181d;--fg:#e8ecf1;--mut:#a3adba;--card:#1e242b;--bd:#343c46;--ac:#7fb2ee;--ok:#5fd18e;--okb:#16301f;--no:#ff8a80;--nob:#3a1d1b}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.55 Georgia,"Times New Roman",serif}
+main{max-width:760px;margin:0 auto;padding:24px 16px 64px}
+.kick{color:var(--ac);font:600 13px/1.3 system-ui,sans-serif;letter-spacing:.04em;text-transform:uppercase}
+h1{font-size:28px;line-height:1.2;margin:.3em 0}
+h2{font-size:21px;margin:1.8em 0 .2em;border-bottom:2px solid var(--ac);padding-bottom:4px}
+.sub{color:var(--mut);font:15px/1.5 system-ui,sans-serif;margin:.2em 0 .8em}
+.name{display:block;width:100%;max-width:380px;margin:6px 0 14px;padding:9px 11px;font:16px system-ui,sans-serif;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--fg)}
+.q{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px 16px;margin:12px 0}
+.q p{margin:0 0 8px}
+.q label{display:block;padding:6px 8px;border-radius:6px;cursor:pointer;font-size:16px}
+.q label:hover{background:var(--bd)}
+.q input{margin-right:8px}
+.q.ok{border-color:var(--ok);background:var(--okb)}
+.q.no{border-color:var(--no);background:var(--nob)}
+.fb{margin-top:8px;padding-top:8px;border-top:1px dashed var(--bd);font:15px/1.5 system-ui,sans-serif}
+#res{display:none;margin:18px 0;padding:14px 16px;border:2px solid var(--ac);border-radius:10px;font:17px/1.5 system-ui,sans-serif}
+#res b.n{font-size:28px;color:var(--ac)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin:28px 0 8px}
+button{padding:11px 20px;font:600 16px system-ui,sans-serif;border-radius:8px;border:2px solid var(--ac);cursor:pointer}
+#bc{background:var(--ac);color:#fff}
+#br{background:transparent;color:var(--ac)}
+.foot{color:var(--mut);font:14px/1.5 system-ui,sans-serif;margin-top:20px}
+</style>
+</head>
+<body>
+<main>
+<div class="kick">Universidad de El Salvador · Fundamentos del Currículo · G01 · Ciclo II-2026</div>
+<h1>Cuestionario de repaso: capítulos 4, 5 y 6</h1>
+<p class="sub">Basado en Molina Bogantes, Z. <i>Fundamentos del currículo</i>. EUNED. 60 preguntas con autocorrección.</p>
+<label class="sub" for="nm">Nombre del estudiante</label>
+<input id="nm" class="name" type="text" autocomplete="name">
+<p class="sub">Responde las 60 preguntas y presiona «Revisar respuestas». Verás tu nota sobre 10 y la explicación de cada respuesta. Puedes intentarlo las veces que quieras.</p>
+<div id="res" role="status"></div>
+<h2>Parte I. Verdadero o falso</h2>
+<p class="sub">30 preguntas. Marca si cada afirmación es verdadera o falsa según el libro.</p>
+<div id="tf"></div>
+<h2>Parte II. Opción múltiple</h2>
+<p class="sub">30 preguntas. Elige la única respuesta correcta.</p>
+<div id="mc"></div>
+<div class="btns"><button id="bc" type="button">Revisar respuestas</button><button id="br" type="button">Reintentar</button></div>
+<p class="foot">Cuestionario de práctica. No guarda intentos ni envía datos.</p>
+</main>
+<script>
+// [afirmación, ¿es verdadera?, explicación]
+const TF=[
+["Según Casarini (1999), la cultura es el conjunto de representaciones individuales, grupales y colectivas que dan significado a los intercambios entre los miembros de una comunidad.",true,"Es la definición de cultura que adopta el apartado 4.1."],
+["El libro sostiene que el rol del docente es solo pedagógico y que no debe participar en el desarrollo cultural.",false,"Se le concibe como “trabajador de la cultura”: no puede asumir su rol solo en lo pedagógico (4.2)."],
+["Un currículo homogeneizante atiende a los distintos grupos como si todos pertenecieran a una misma cultura.",true,"Así lo plantea el libro al explicar la negación cultural (4.2)."],
+["Contextualizar el currículo consiste en aplicar el currículo nacional sin cambios en todas las aulas.",false,"Es tomar un currículo ya elaborado y ajustarlo a poblaciones, grupos y circunstancias específicas (4.2 y 4.3)."],
+["El conocimiento del contexto sociocultural debe realizarse solo al inicio del año escolar.",false,"Debe ser una tarea permanente, paralela a la planificación y ejecución de la enseñanza (4.3.1)."],
+["En la técnica “Así quiero ser”, los alumnos imaginan cómo será su vida dentro de diez o quince años y escriben sobre ello.",true,"Es una de las técnicas de Molina y Pérez (1993) para conocer intereses y expectativas (4.3.1)."],
+["La educación inclusiva propone varios currículos separados, uno para cada grupo de estudiantes.",false,"Propone un solo currículo amplio, común y flexible, con modificaciones individuales fundamentadas en él (4.5.3)."],
+["Según Magendzo, una educación en la que todos alcanzan altos rendimientos dentro de una cultura homogeneizante, pero que contribuye a la aculturación y a la pérdida de identidad, es de dudosa calidad.",true,"Para él, la equidad se une a la calidad cuando el conocimiento es pertinente a la identidad cultural de los alumnos (4.3)."],
+["Las adaptaciones curriculares individualizadas poco significativas modifican los objetivos educativos del grupo.",false,"Su rasgo fundamental es que no afectan los objetivos, que siguen siendo los del grupo (4.5.8)."],
+["Antes de una adaptación curricular individualizada significativa deben agotarse los recursos disponibles en la programación de aula.",true,"Por ejemplo: refuerzo pedagógico, atención individualizada y evaluación continua y formativa (4.5.9)."],
+["Siguiendo a Matus, el libro define la planificación como un intento de previsión y no de predicción.",true,"Planificar es hacer caminos hacia el futuro, no predecirlo (5.1)."],
+["Los tres niveles de concreción del planeamiento curricular son el macro, el meso y el micro.",true,"Corresponden al nivel nacional, al institucional y al de aula (5.2)."],
+["El programa de estudio es el documento curricular nacional más global, y el plan de estudio es el más específico.",false,"Es al revés: el plan de estudio es el más global; los programas desarrollan cada asignatura o área (5.2.1)."],
+["El Proyecto Curricular de Centro (PCC) lo elabora únicamente el director de la institución.",false,"En su construcción participa todo el personal docente, con orientación técnica del director (5.2.2)."],
+["El Proyecto Educativo de Centro (PEC) es el primer documento que se elabora en la institución y el PCC debe tomarlo en cuenta.",true,"El PEC aporta la identidad del centro y sus prioridades educativas (5.2.2)."],
+["Según el libro, el Proyecto Curricular de Centro permite que cada institución posea su propia identidad curricular.",true,"Es uno de los propósitos del PCC: adecuar las prescripciones nacionales al contexto institucional y sociocultural (5.2.2)."],
+["El principio de publicidad propone que la programación curricular se dé a conocer abiertamente, lo que permite su análisis crítico.",true,"También permite el control externo (5.1.2)."],
+["La evaluación curricular se limita a la evaluación de los aprendizajes de los alumnos.",false,"Es una acción global sobre el proceso curricular; la evaluación de aprendizajes es una dimensión esencial dentro de ella (5.3)."],
+["La evaluación sumativa tiene como función principal regular el proceso mientras se desarrollan las actividades.",false,"Esa es la evaluación formativa. La sumativa emite juicios y califica al concluir un período de trabajo (5.3)."],
+["Entre las características de la evaluación propuesta está ser cualitativa: valora más la calidad de los logros que la cantidad.",true,"Junto con ser holística, formativa, sistemática, cooperativa y ética, entre otras (5.3.2)."],
+["La palabra innovación viene del latín «innovare» y alude a novedad o renovación.",true,"En educación se aplica a nuevas ideas o proyectos que mejoran o enriquecen la práctica (6.1)."],
+["Según Zabalza, innovar no es solo hacer cosas distintas, sino hacer cosas mejores.",true,"No toda novedad es una innovación (6.1)."],
+["Cualquier novedad reciente puede considerarse una innovación curricular.",false,"Una ocurrencia reciente no basta: la innovación debe generar transformaciones cualitativas (6.2)."],
+["Las innovaciones curriculares son una estrategia de formación para docentes y alumnos, no un fin en sí mismas.",true,"Está entre las características de las innovaciones (6.2)."],
+["Para concretar una innovación se requieren una idea que busque mejorar, docentes dispuestos y condiciones institucionales.",true,"Son los tres requisitos que menciona el apartado 6.2."],
+["El libro presenta tres modelos de innovación curricular: investigación-desarrollo-difusión, interacción social y organizativo.",false,"Son cuatro: se suma el modelo de resolución de problemas (6.4.1)."],
+["El docente investigador e innovador supera el papel de aplicador de propuestas curriculares preparadas por especialistas.",true,"Se le plantea como profesional reflexivo, investigador y creador del currículo (6.3)."],
+["La innovación pedagógica se desarrolla en la sala de clases y su promotor es el profesor.",true,"Cuadro 6.4, de Ríos y Reinoso (2008)."],
+["La innovación socio-educativa se desarrolla en la sala de clases y la promueve el profesor.",false,"Su espacio es la comunidad y sus promotores son los agentes sociales (cuadro 6.4)."],
+["En el FODA, las debilidades son riesgos externos que restringen los objetivos del proyecto.",false,"Esos son las amenazas; las debilidades son elementos internos que ponen en peligro el proyecto (6.5.1)."]
+];
+// [enunciado, opciones, índice correcto, explicación]
+const MC=[
+["Según Martínez, ¿cómo se concibe al docente como «trabajador de la cultura»?",["Como aplicador de programas hechos por especialistas","Como agente social que contribuye a transmitir y conservar la cultura de sus alumnos","Como evaluador de la cultura académica","Como sustituto de la cultura cotidiana por la académica"],1,"Es un agente social y mediador cultural (4.2)."],
+["¿Cómo caracteriza Magendzo la multiculturalidad?",["Como un problema exclusivo de grupos étnicos","Como la existencia de una cultura dominante","Como un carácter plurinacional, pluriétnico, plurirreligioso y multisocial en clase, género y localidad","Como la unificación cultural de la escuela"],2,"Esa visión supera la que ve las diferencias solo como un tema étnico (4.2)."],
+["Según Peralta (1996), un currículo con escasa pertinencia cultural:",["Afecta la identidad cultural y el sentido de pertenencia de los educandos","Fortalece los nexos entre los niños y sus familias","Mejora la equidad de la oferta educativa","Aumenta la autonomía de las comunidades"],0,"También puede distanciar a los niños de sus familias y comunidades (4.2)."],
+["Según el libro, la contextualización curricular devuelve el currículo a:",["El Ministerio de Educación","La región educativa","Los organismos internacionales","La institución educativa y, en ella, al docente como trabajador de la cultura"],3,"Implica autonomía de las instituciones educativas (4.2)."],
+["¿Qué tres elementos es esencial conocer para contextualizar el currículo?",["Presupuesto, infraestructura y matrícula","Contexto sociocultural, contexto institucional y necesidades, intereses y expectativas de los alumnos","Resultados nacionales, ranking y becas","Plan de estudios, horario y calendario"],1,"Corresponden al primer momento del procedimiento: conocer el contexto (4.3.1)."],
+["¿En qué consiste la técnica del sociodrama?",["En una encuesta escrita a los padres","En un dibujo de las relaciones del alumno","En representaciones espontáneas, hechas por los alumnos, de situaciones reales de su vida cotidiana","En una lista de las cinco cosas que más les gustan"],2,"Mientras tanto, el docente toma notas de necesidades, valores e intereses (4.3.1)."],
+["¿Por qué se dice que los temas transversales tienen horizontalidad y verticalidad?",["Porque se trabajan en varias asignaturas a la vez y a lo largo de varios ciclos","Porque se limitan a un solo docente y a un solo nivel","Porque se evalúan solo al final del curso","Porque dependen únicamente del director"],0,"Según Díaz Barriga (2006), atraviesan el currículo de forma horizontal y vertical (4.4)."],
+["¿Cuál es un ejemplo de adaptación de acceso a la comunicación?",["Eliminar barreras arquitectónicas","Eliminar contenidos del ciclo","Cambiar los objetivos generales de etapa","Materiales en Braille, lupas o lenguaje de signos"],3,"Eliminar barreras arquitectónicas es un acceso físico (4.5.8)."],
+["¿Qué adaptación se dirige a un alumno concreto con necesidades educativas especiales y ajusta objetivos, contenidos, metodología y evaluación?",["La adaptación de centro","La adaptación curricular individualizada","La adaptación de aula","El Proyecto Educativo de Centro"],1,"Los tres niveles son: centro, aula e individualizada (4.5.7)."],
+["¿Cuál de las siguientes NO es una fuente de la diversidad educativa según Muntaner (2000)?",["El alumno","El profesor","El mobiliario del aula","El contexto social"],2,"Las fuentes son: alumno, profesor, materias curriculares y social (4.5.1)."],
+["¿Qué principio del planeamiento curricular indica que el proceso se desarrolla en el marco de una escuela real, con sus condiciones particulares?",["Principio de publicidad","Principio de hipoteticidad","Principio de realidad","Principio de socialidad"],2,"Es uno de los principios que el libro toma de Zabalza (5.1.2)."],
+["¿Qué principio busca el consenso y privilegia los puntos de acuerdo comunes en la comunidad educativa?",["Principio de socialidad","Principio de publicidad","Principio de racionalidad","Principio de sistematicidad"],0,"Es el principio de socialidad (5.1.2)."],
+["¿Qué determina el plan de estudios?",["El planeamiento diario de cada docente","Las actividades de cada clase","Los instrumentos de evaluación de cada aula","Las asignaturas de cada nivel y las lecciones asignadas a cada una"],3,"Es el documento curricular nacional más global (5.2.1)."],
+["Un plan de estudios que organiza los aprendizajes de varias asignaturas alrededor de una problemática, una temática o un eje es de tipo:",["Disciplinar","Modular","Por áreas","Lineal"],1,"Los módulos integran los aportes de varias asignaturas (5.2.1)."],
+["¿Cuál es el documento curricular del nivel meso o institucional?",["El plan de estudios","El programa de estudio","El Proyecto Curricular de Centro","El planeamiento didáctico"],2,"El nivel macro tiene planes y programas; el micro, el planeamiento didáctico (5.2)."],
+["Los objetivos generales de etapa del PCC se definen en términos de:",["Conductas observables","Contenidos por unidad","Calificaciones mínimas","Capacidades, y no de comportamientos"],3,"Enfatizan el proceso de desarrollo de la capacidad (5.2.2)."],
+["¿Qué fuentes se consideran para elaborar el proyecto curricular institucional?",["Solo los programas de estudio","Documentos oficiales, información recogida sobre el contexto y experiencia de los docentes","Únicamente las opiniones de los padres","Las pruebas nacionales del año anterior"],1,"Son las tres fuentes que menciona el apartado 4.3.1."],
+["¿Qué tipo de evaluación se aplica al comienzo de una nueva fase de aprendizaje para conocer los esquemas de conocimiento del alumno?",["Inicial o diagnóstica","Formativa","Sumativa","Institucional"],0,"Así lo muestra el cuadro de Coll (1997) (5.3)."],
+["¿Cuál NO aparece entre las características de la evaluación que propone el capítulo 5?",["Holística","Cooperativa y dialógica","Ética","Competitiva"],3,"Las características son: holística, formativa, científica y objetiva, sistemática, continua, acumulativa, flexible, cualitativa, cooperativa y ética (5.3.2)."],
+["¿Qué instrumento es un expediente con una muestra de lo que los alumnos pueden hacer, con evidencias que el estudiante selecciona?",["La lista de cotejo","El portafolio","La escala","El diario del maestro"],1,"Lo describe Quesada (2001) (5.3.6)."],
+["Según Imbernón (1996), la innovación educativa es:",["Un reemplazo de programas por otros nuevos","Una reforma impuesta desde el Ministerio","El uso de tecnología en el aula","Una actitud y un proceso de indagación de nuevas ideas para solucionar situaciones problemáticas de la práctica"],3,"Implica un cambio en los contextos y en la práctica institucional (6.1)."],
+["¿Cuál NO es uno de los cuatro modelos de innovación curricular del capítulo 6?",["Investigación, desarrollo y difusión","Resolución de problemas","Transmisión directa","Organizativo"],2,"Son: investigación-desarrollo-difusión, interacción social, organizativo y resolución de problemas (6.4.1)."],
+["Según el cuadro 6.4, ¿qué se innova en la innovación escolar?",["La práctica pedagógica","Los procesos institucionales","Los procesos sociales","El currículo oficial"],1,"Se desarrolla en la escuela y la promueven directores y profesores (6.4)."],
+["¿Qué tres estrategias propone el capítulo 6 para diseñar e implementar innovaciones?",["Proyectos de intervención, investigación y desarrollo, e investigación-acción","Examen, tarea y proyecto","FODA, diario y ensayo","Cambio, reforma e innovación"],0,"Coinciden en el diagnóstico, los objetivos, el plan de mejoramiento y el seguimiento (6.5)."],
+["En la metodología de investigación y desarrollo, ¿qué paso consiste en aplicar la innovación en un contexto distinto al de la institución para la que se diseñó?",["Investigación","Difusión","Adopción","Desarrollo"],2,"Los pasos son: investigación, desarrollo, difusión y adopción (6.5.1)."],
+["¿Cuál es el orden de pasos del modelo interactivo de investigación-acción?",["Acción, indagación, difusión y adopción","Indagación, acción, reflexión y retroalimentación","Diagnóstico, adopción, difusión y evaluación","Reflexión, adopción, acción e indagación"],1,"Es el orden que presenta el libro (6.5.1)."],
+["¿Cuáles son los criterios para valorar los logros de una innovación curricular?",["Rentabilidad, popularidad, antigüedad y costo","Rapidez, tamaño, novedad y publicidad","Equidad, matrícula, ranking y becas","Eficacia, funcionalidad, práctica educativa y factores sociales e ideológicos"],3,"Aparecen en la figura 6.3 (6.5.2)."],
+["En el diagrama del árbol, ¿qué se escribe en las raíces?",["Las causas de la situación","Las consecuencias","La situación educativa por mejorar","Los objetivos de la innovación"],0,"La situación va en el tronco y las consecuencias en las hojas (6.5.3)."],
+["¿Qué técnica consiste en que cada maestro escriba a diario unas líneas sobre lo más importante de su práctica?",["El mural","El ensayo","El diario del maestro","El FODA"],2,"Ayuda a desarrollar la habilidad de escribir sobre la propia práctica (6.5.3)."],
+["¿Cuál de los siguientes es un factor obstaculizador de las innovaciones?",["El apoyo de las autoridades","La excesiva verticalidad en el diseño y las decisiones al margen de los docentes","La planificación colaborativa","La participación de la comunidad"],1,"Cuadro 6.2, de Ríos y Reinoso (6.2)."]
+];
+const L="ABCD", $=id=>document.getElementById(id);
+$("tf").innerHTML=TF.map((q,i)=>`<div class="q" id="q${i}"><p><b>${i+1}.</b> ${q[0]}</p><label><input type="radio" name="q${i}" value="1"> Verdadero</label><label><input type="radio" name="q${i}" value="0"> Falso</label><div class="fb" hidden></div></div>`).join("");
+$("mc").innerHTML=MC.map((q,j)=>{const i=30+j;return `<div class="q" id="q${i}"><p><b>${i+1}.</b> ${q[0]}</p>${q[1].map((o,k)=>`<label><input type="radio" name="q${i}" value="${k}"> ${L[k]}) ${o}</label>`).join("")}<div class="fb" hidden></div></div>`}).join("");
+const KEY=[...TF.map(q=>[q[1]?1:0,q[2],q[1]?"Verdadero":"Falso"]),...MC.map(q=>[q[2],q[3],L[q[2]]+") "+q[1][q[2]]])];
+$("bc").onclick=()=>{
+  let ok=0,blank=0;
+  KEY.forEach((a,i)=>{
+    const box=$("q"+i),sel=document.querySelector(`input[name=q${i}]:checked`),fb=box.querySelector(".fb");
+    const good=!!sel&&+sel.value===a[0];
+    if(!sel)blank++;
+    if(good)ok++;
+    box.classList.remove("ok","no");box.classList.add(good?"ok":"no");
+    fb.hidden=false;
+    fb.innerHTML=(good?"✔ Correcto. ":(sel?"✘ Incorrecto. ":"✘ Sin responder. ")+"Respuesta correcta: <b>"+a[2]+"</b>. ")+a[1];
+  });
+  const nm=$("nm").value.trim(),r=$("res");
+  r.style.display="block";
+  r.innerHTML=(nm?"<b>"+nm.replace(/[<>&]/g,"")+"</b><br>":"")+"Tu nota: <b class=\"n\">"+(ok/60*10).toFixed(1)+"</b> / 10 · "+ok+" de 60 respuestas correctas"+(blank?" · "+blank+" sin responder":"");
+  r.scrollIntoView({behavior:"smooth",block:"start"});
+};
+$("br").onclick=()=>{
+  document.querySelectorAll("input[type=radio]").forEach(x=>x.checked=false);
+  document.querySelectorAll(".q").forEach(b=>{b.classList.remove("ok","no");b.querySelector(".fb").hidden=true});
+  $("res").style.display="none";
+  window.scrollTo({top:0,behavior:"smooth"});
+};
+</script>
+</body>
+</html>
